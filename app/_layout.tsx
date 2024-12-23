@@ -6,10 +6,13 @@ import * as SplashScreen from 'expo-splash-screen';
 import { createStackNavigator } from '@react-navigation/stack';  
 import 'react-native-reanimated';
 import { useColorScheme } from '@/components/useColorScheme';
-import CourseLibrary from './CourseLibrary'; 
-import CourseDetail from './CourseDetail'; 
-import Quiz from '../components/Quiz'; 
-import { RootStackParamList } from './CourseLibrary';
+import ProductDetail from './ProductDetail'; 
+import AuthenticationScreen from './AuthenticationScreen';
+import ProductPage, { RootStackParamList } from './ProductPage';
+import { CartProvider } from './CartContext';
+import CartScreen from './Cart';
+import UpdateProfile from './UpdateProfile';
+import ProfileSetup from './UpdateProfile';
 
 const Stack = createStackNavigator<RootStackParamList>();  
 
@@ -44,7 +47,11 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <CartProvider>
+      <RootLayoutNav />
+    </CartProvider>
+  );
 }
 
 function RootLayoutNav() {
@@ -52,18 +59,32 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack.Navigator initialRouteName="CourseLibrary">
-          <Stack.Screen
-            name="CourseLibrary"
-            component={CourseLibrary}
-            options={{ title: 'Course Library' }}  
+        <Stack.Navigator initialRouteName="AuthenticationScreen">
+        <Stack.Screen
+            name="AuthenticationScreen"
+            component={AuthenticationScreen}
+            options={{ title: 'Authentication Screen' }}  
           />
           <Stack.Screen
-            name="CourseDetail"
-            component={CourseDetail}
-            options={{ title: 'Course Detail' }}  
+            name="ProductPage"
+            component={ProductPage}
+            options={{ title: 'Product Page' }}  
           />
-          <Stack.Screen name="Quiz" component={Quiz} />
+          <Stack.Screen
+            name="ProductDetail"
+            component={ProductDetail}
+            options={{ title: 'ProductDetail' }}  
+          />
+          <Stack.Screen
+            name="Cart"
+            component={CartScreen}
+            options={{ title: 'Cart' }}  
+          />
+          <Stack.Screen
+            name="UpdateProfile"
+            component={ProfileSetup}
+            options={{ title: 'UpdateProfile' }}  
+          />
         </Stack.Navigator>
 
     </ThemeProvider>
